@@ -35,7 +35,7 @@ Clinicians' workload in sleep studies has lightened due to advances in Automatic
 
 #### Direct Frequency Domain Feature Symbols with Computational Method
 <br> ![](/figures/Table-04.png)
- **
+
 #### Derived Frequency Domain Feature Symbols with Computational Method
 <br> ![](/figures/Table-05.png)
 
@@ -43,18 +43,18 @@ Clinicians' workload in sleep studies has lightened due to advances in Automatic
 
 ## Additional Figures
 
-![Ablation Study 01](/figures/Ab2.png)
+![Ablation Study 01](/figures/Ab2.jpg)
 <br> *Comparison of Manual Sleep Stage Labelling with SleepBoost Model’s Prediction. The actual Label represents the result of manual staging by Experts, while the Predicted Label is the result of the SleepBoost 
 Model*
 
-![Ablation Study 02](/figures/Ab1.png)
+![Ablation Study 02](/figures/Ab1.jpg)
 <br> *Comparison of performance in different variants of SleepBoost. M1 (all features + balanced weight), M2 (selected features + balanced weight), M3 (all features + adaptive weight), and M4 (selected features + adaptive weight) represent four variants of SleepBoost with the combinations of features and weight allocation.*
 
-![Confusion Matrices](/figures/CM.png)
+![Confusion Matrices](/figures/CM.jpg)
 <br> *Confusion Matrices of all the Models (a) Support Vector Machine (SVM) (b) Adaptive Boosting (AdaBoost) (c) Random Forest (RF) (d) Categorical Boosting (CatBoost) (e) Light Gradient Boosting (LGBoost) and (f) SleepBoost*
 
 
-![ROC](/figures/ROC.png)
+![ROC](/figures/ROC.jpg)
 <br> *Comparison of Area under the Receiver Operating Curve (AUC-ROC) among the conventional models and SleepBoost. Left: using all extracted features Right: using selected features of FEB*
 <!---
 ![Figure 2](/figures/figure2.png)
