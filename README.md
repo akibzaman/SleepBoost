@@ -13,7 +13,7 @@ Clinicians' workload in sleep studies has lightened due to advances in Automatic
 ## Overview of the Method
 
 <br> ![SleepBoost](/figures/SleepBoost.png)
-
+<br> *General architecture of SleepBoost. We trained RF, LGBoost, and CatBoost as a unit block model for SleepBoost using the training dataset. Adaptive weight calculation is initiated using the prediction of the unit block models. Finally, a weighted score is calculated to predict the sleep stage*
 <!---
 ## Feature Tables
 *Describe the tables included in your README.*
