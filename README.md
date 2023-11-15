@@ -12,8 +12,8 @@ Clinicians' workload in sleep studies has lightened due to advances in Automatic
 
 ## Overview of the Method
 
-![SleepBoost](/figures/SleepBoost.png)
-*Figure 1: Caption describing the architecture diagram.*
+<br> ![SleepBoost](/figures/SleepBoost.png)
+
 <!---
 ## Feature Tables
 *Describe the tables included in your README.*
