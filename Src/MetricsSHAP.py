@@ -32,8 +32,8 @@ from scipy.interpolate import interp1d
 import shap
 
 
-feature_names=['Actual', 'Predicted']
-actual_class = ['W','N1', 'N2','N3','REM']
+feature_names = ["Actual", "Predicted"]
+actual_class = ["W", "N1", "N2", "N3", "REM"]
 
 ###############		Raw Data	#################
 
@@ -67,7 +67,7 @@ actual_class = ['W','N1', 'N2','N3','REM']
 
 # ############# 0.1 ################
 data = pd.read_csv("alldatacsv/selected/selected_data_1.csv")
-X, y = data.loc[:,"std":"D19"], data['class']
+X, y = data.loc[:, "std":"D19"], data["class"]
 #
 # ############# 0.2 ################
 # data = pd.read_csv("alldatacsv/selected/selected_data_2.csv")
@@ -78,8 +78,12 @@ X, y = data.loc[:,"std":"D19"], data['class']
 # X, y = data.loc[:,"std":"D6"], data['class']
 
 
-X_train, X_rest, y_train, y_rest = train_test_split(X, y, test_size=0.4, stratify=y, random_state=32) #stratify=y
-X_valid, X_test, y_valid, y_test = train_test_split(X_rest, y_rest, test_size=0.5, stratify=y_rest, random_state=32)
+X_train, X_rest, y_train, y_rest = train_test_split(
+    X, y, test_size=0.4, stratify=y, random_state=32
+)  # stratify=y
+X_valid, X_test, y_valid, y_test = train_test_split(
+    X_rest, y_rest, test_size=0.5, stratify=y_rest, random_state=32
+)
 
 print(X_train.shape)
 print(y_train.shape)
@@ -94,13 +98,15 @@ print(y_test.shape)
 # scaler.fit(X_test)
 # X_test=scaler.transform(X_test)
 
+
 def showDistribution(y):
-	counter = Counter(y)
-	for k,v in counter.items():
-		per = v / len(y) * 100
-		print('Class=%d, n=%d (%.3f%%)' % (k, v, per))
-	pyplot.bar(counter.keys(), counter.values())
-	pyplot.show()
+    counter = Counter(y)
+    for k, v in counter.items():
+        per = v / len(y) * 100
+        print("Class=%d, n=%d (%.3f%%)" % (k, v, per))
+    pyplot.bar(counter.keys(), counter.values())
+    pyplot.show()
+
 
 showDistribution(y_train)
 # oversample = SMOTE()
@@ -260,17 +266,26 @@ print(y_test.shape)
 #
 ##### LGBoost #####
 print("LGBM------------------------------->")
-lgb_model=lgb.LGBMClassifier(boosting_type='gbdt', num_leaves=25,
-							 min_data_in_leaf=6,
-							 learning_rate=0.4, n_estimators=200,
-							 objective='multiclass', class_weight='balanced',
-							 min_split_gain=0.0,
-							 min_child_weight=0.03, min_child_samples=20,
-							 subsample=1.0,
-							 subsample_freq=500, colsample_bytree=1.0,
-							 reg_lambda=0.65, random_state=0,num_classes=3)
-lgb_model= lgb_model.fit(X_train,y_train)
-y_pred_train=lgb_model.predict(X_train)
+lgb_model = lgb.LGBMClassifier(
+    boosting_type="gbdt",
+    num_leaves=25,
+    min_data_in_leaf=6,
+    learning_rate=0.4,
+    n_estimators=200,
+    objective="multiclass",
+    class_weight="balanced",
+    min_split_gain=0.0,
+    min_child_weight=0.03,
+    min_child_samples=20,
+    subsample=1.0,
+    subsample_freq=500,
+    colsample_bytree=1.0,
+    reg_lambda=0.65,
+    random_state=0,
+    num_classes=3,
+)
+lgb_model = lgb_model.fit(X_train, y_train)
+y_pred_train = lgb_model.predict(X_train)
 y_pred_test_LGB = lgb_model.predict(X_test)
 print(metrics.classification_report(y_test, y_pred_test_LGB))
 #
@@ -284,7 +299,6 @@ print(metrics.classification_report(y_test, y_pred_test_LGB))
 # 			fmt='d',cmap='BuGn', annot_kws={"size": 16})
 # pyplot.savefig('EvaluationFigures/LATEST/LGBoost.jpg',dpi=300)
 # pyplot.show()
-
 
 
 # #### SleepBoost
@@ -517,4 +531,4 @@ print(metrics.classification_report(y_test, y_pred_test_LGB))
 explainer = shap.TreeExplainer(lgb_model)
 shap_values = explainer.shap_values(X)
 
-shap.force_plot(explainer.expected_value[1], shap_values[1][0,:], X_test.iloc[0,:])
+shap.force_plot(explainer.expected_value[1], shap_values[1][0, :], X_test.iloc[0, :])
