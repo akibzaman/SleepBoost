@@ -78,6 +78,15 @@ This repository contains all the necessary code, data, and instructions to repli
 <!--- - `docs/`: Further documentation on the code and the research. --->
 <!--- - *Include any additional relevant directories and their descriptions.* --->
 
+## Create a virtual environment with venv/conda
+
+```bash
+python3 -m venv sleepboost
+source .venv/bin/activate
+python3 -m pip install -r requirements.txt
+```
+
+
 ## Citation
 
 If you use our code or methodology in your work, please cite our paper as follows:
