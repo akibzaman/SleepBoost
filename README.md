@@ -73,10 +73,24 @@ Model*
 This repository contains all the necessary code, data, and instructions to replicate the findings of our paper. The repository is structured as follows:
 
 - `src/`: Source code used in the research.
-- `data/`: Data files and preprocessing scripts.
 - `figures/`: Figures and graphs used in the paper.
+<!--- - `data/`: Data files and preprocessing scripts. --->
 <!--- - `docs/`: Further documentation on the code and the research. --->
 <!--- - *Include any additional relevant directories and their descriptions.* --->
+
+## Prepare dataset ##
+We evaluated our SleepBoost with [Sleep-EDF](https://www.physionet.org/content/sleep-edfx/1.0.0/) dataset.
+
+For the [Sleep-EDF]([https://physionet.org/pn4/sleep-edfx/](https://www.physionet.org/content/sleep-edfx/1.0.0/)) dataset, you can run the following scripts to download SC subjects.
+
+    cd data
+    chmod +x download_physionet.sh
+    ./download_physionet.sh
+
+Then run the following script to extract specified EEG channels and their corresponding sleep stages.
+
+    python prepare_physionet.py --data_dir data --output_dir data/eeg_fpz_cz --select_ch 'EEG Fpz-Cz'
+    python prepare_physionet.py --data_dir data --output_dir data/eeg_pz_oz --select_ch 'EEG Pz-Oz'
 
 ## Create a virtual environment with venv/conda
 
