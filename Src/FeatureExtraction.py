@@ -1,11 +1,14 @@
-from eeglib.helpers import EDFHelper
 from glob import glob
+import copy
+
+from eeglib.helpers import EDFHelper
+from PyEMD import EMD
+import mne
+from mne.time_frequency import psd_welch
+
 import numpy as np
 import matplotlib.pyplot as plt
 from scipy import stats
-import mne
-import copy
-from mne.time_frequency import psd_welch
 import pandas as pd
 from sklearn.neighbors import KDTree
 from numba import njit
@@ -42,12 +45,12 @@ def eegPowerBand(epochs):
     #               }
     FREQ_BANDS = {
         "lowdelta": [0.5, 2.0],
-        "highdelta": [1.2, 4],
-        "theta": [4, 8],
-        "alpha": [8, 13],
+        "highdelta": [2.01, 4.0],
+        "theta": [4.01, 8.00],
+        "alpha": [8.01, 12.0],
         # "sigma": [11.5, 15.5],
-        "lowbeta": [13, 20],
-        "highbeta": [20, 30],
+        "lowbeta": [12.01, 20.0],
+        "highbeta": [20.01, 30.0],
         "lowgama": [30, 45],
     }
     psds, freqs = psd_welch(epochs, picks="eeg", fmin=0.5, fmax=45)

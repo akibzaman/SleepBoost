@@ -9,6 +9,7 @@ from collections import Counter
 from matplotlib import pyplot
 import seaborn as sns
 from sklearn.preprocessing import MinMaxScaler
+import shap
 
 ###############		Raw Data	#################
 
@@ -40,7 +41,7 @@ from sklearn.preprocessing import MinMaxScaler
 # X, y = data.loc[:,"std":"D18"], data['class']
 
 ############## 0.1 ################
-data = pd.read_csv("/Users/akibzaman/Codes/SleepBoost/Data/alldatacsv/selected/selected_data_1.csv")
+data = pd.read_csv("/Users/akibzaman/Codes/SleepBoost Paper Materials/Git Code/SleepBoost/data/alldatacsv/selected/selected_data_1.csv") #use your own path link here 
 X, y = data.loc[:, "std":"D19"], data["class"]
 #
 # ############# 0.2 ################
@@ -50,7 +51,12 @@ X, y = data.loc[:, "std":"D19"], data["class"]
 # ############# 0.3 ################
 # data = pd.read_csv("alldatacsv/selected/selected_data_3.csv")
 # X, y = data.loc[:,"std":"D6"], data['class']
-
+FEATURES = [
+    "std", "var", "minim", "maxim", "rms", "median", "absDiffSignal", "kurtosis",
+    "HM", "HC", "E2", "E3", "E4", "E5", "E6", "E7", "E8", "E1",
+    "D1", "D2", "D3", "D4", "D5", "D6", "D7", "D8", "D9", "D10",
+    "D11", "D12", "D13", "D14", "D15", "D16", "D17", "D18", "D19"
+    ]
 RESULTS = {"accuracy": {}, "precision": {}, "recall": {}, "f1_score": {}, "kappa": {}}
 CM_AVG = 0
 acc = []
@@ -138,6 +144,18 @@ for i in range(10):
     )
     lgb_model.fit(X_train, y_train)
     C1_lgbm_pred = lgb_model.predict(X_valid)
+
+    # ###### SHAP ANALYSIS
+    # # Initialize SHAP explainer
+    # explainer = shap.Explainer(lgb_model, X_train)
+    # # Calculate SHAP values
+    # shap_values = explainer(X_test, )
+    # # Choose the class index for which you want to visualize SHAP values
+    # # For instance, if you want to visualize the importance for the first class in a multi-class classification, set class_index=0
+    # class_index = 0
+    # # Visualize the SHAP values for the specified class
+    # shap.summary_plot(shap_values[..., class_index].values, X_test, feature_names=FEATURES)
+
     C1_lgbm_pred = pd.DataFrame(C1_lgbm_pred, columns=["C2LGBM"])
     C1_lgbm_pred = C1_lgbm_pred.reset_index()
     C1_lgbm_pred = C1_lgbm_pred.drop(["index"], axis=1)
@@ -166,6 +184,18 @@ for i in range(10):
     )
     model_RF.fit(X_train, y_train)
     C1_rf_pred = model_RF.predict(X_valid)
+
+    # ###### SHAP ANALYSIS
+    # # Initialize SHAP explainer
+    # explainer = shap.Explainer(model_RF, X_train)
+    # # Calculate SHAP values
+    # shap_values = explainer(X_test)
+    # # Choose the class index for which you want to visualize SHAP values
+    # # For instance, if you want to visualize the importance for the first class in a multi-class classification, set class_index=0
+    # class_index = 0
+    # # Visualize the SHAP values for the specified class
+    # shap.summary_plot(shap_values[..., class_index].values, X_test, feature_names=FEATURES)
+
     C1_rf_pred = pd.DataFrame(C1_rf_pred, columns=["C3RF"])
     C1_rf_pred = C1_rf_pred.reset_index()
     C1_rf_pred = C1_rf_pred.drop(["index"], axis=1)
@@ -342,6 +372,28 @@ for i in range(10):
     #
     # plt.show()
 
+
+# List of folds
+folds = list(range(1, 11))
+
+# Plotting
+pyplot.figure(figsize=(10, 6))
+pyplot.plot(folds, acc, label='Accuracy', marker='o')
+pyplot.plot(folds, pre, label='Precision', marker='o')
+pyplot.plot(folds, rec, label='Recall', marker='o')
+pyplot.plot(folds, f1, label='F1 Score', marker='o')
+pyplot.plot(folds, kappa, label='Kappa', marker='o')
+
+# Adding titles and labels
+pyplot.title('Performance Metrics Across Folds')
+pyplot.xlabel('Fold')
+pyplot.ylabel('Score')
+pyplot.xticks(folds)  # Ensure we have a tick for each fold
+pyplot.legend()
+pyplot.grid(True)
+
+# Show the plot
+pyplot.show()
 
 accuracy = sum(acc) / len(acc)
 precision = sum(pre) / len(pre)
