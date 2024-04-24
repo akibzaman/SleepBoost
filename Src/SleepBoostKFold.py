@@ -1,4 +1,5 @@
 import pandas as pd
+import numpy as np
 from catboost import CatBoostClassifier
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.model_selection import train_test_split
@@ -6,11 +7,11 @@ import lightgbm as lgb
 from sklearn import metrics
 from sklearn.metrics import confusion_matrix, classification_report
 from collections import Counter
-from matplotlib import pyplot
+from matplotlib import pyplot as plt
 import seaborn as sns
 from sklearn.preprocessing import MinMaxScaler
-import shap
-
+# import shap
+print(plt.style.available)
 ###############		Raw Data	#################
 
 # trainDataFiles = glob.glob('trainData/*.{}'.format('csv'))
@@ -41,7 +42,8 @@ import shap
 # X, y = data.loc[:,"std":"D18"], data['class']
 
 ############## 0.1 ################
-data = pd.read_csv("/Users/akibzaman/Codes/SleepBoost Paper Materials/Git Code/SleepBoost/data/alldatacsv/selected/selected_data_1.csv") #use your own path link here 
+
+data = pd.read_csv("/Users/akibzaman/Codes/SleepBoost/Git Code/SleepBoost/data/alldatacsv/selected/selected_data_1.csv") #use your own path link here 
 X, y = data.loc[:, "std":"D19"], data["class"]
 #
 # ############# 0.2 ################
@@ -373,27 +375,81 @@ for i in range(10):
     # plt.show()
 
 
-# List of folds
-folds = list(range(1, 11))
+#### Line Plotting 
+# # List of folds
+# folds = list(range(1, 11))
 
-# Plotting
-pyplot.figure(figsize=(10, 6))
-pyplot.plot(folds, acc, label='Accuracy', marker='o')
-pyplot.plot(folds, pre, label='Precision', marker='o')
-pyplot.plot(folds, rec, label='Recall', marker='o')
-pyplot.plot(folds, f1, label='F1 Score', marker='o')
-pyplot.plot(folds, kappa, label='Kappa', marker='o')
+# # Plotting
+# pyplot.figure(figsize=(10, 6))
+# pyplot.plot(folds, acc, label='Accuracy', marker='o')
+# pyplot.plot(folds, pre, label='Precision', marker='o')
+# pyplot.plot(folds, rec, label='Recall', marker='o')
+# pyplot.plot(folds, f1, label='F1 Score', marker='o')
+# pyplot.plot(folds, kappa, label='Kappa', marker='o')
 
-# Adding titles and labels
-pyplot.title('Performance Metrics Across Folds')
-pyplot.xlabel('Fold')
-pyplot.ylabel('Score')
-pyplot.xticks(folds)  # Ensure we have a tick for each fold
-pyplot.legend()
-pyplot.grid(True)
+# # Adding titles and labels
+# pyplot.title('Performance Metrics Across Folds')
+# pyplot.xlabel('Fold')
+# pyplot.ylabel('Score')
+# pyplot.xticks(folds)  # Ensure we have a tick for each fold
+# pyplot.legend()
+# pyplot.grid(True)
 
-# Show the plot
-pyplot.show()
+# # Show the plot
+# pyplot.show()
+
+
+###### Box Plot
+
+data = [acc, pre, rec, f1, kappa]
+labels = ['Accuracy', 'Precision', 'Recall', 'F1 Score', 'Kappa']
+
+# Define figure and style
+plt.figure(figsize=(10, 6))
+plt.style.use('seaborn-v0_8-whitegrid')
+
+# Create custom lines for the legend
+from matplotlib.lines import Line2D
+custom_lines = [Line2D([0], [0], color='#4286f4', lw=1),
+                Line2D([0], [0], color='red', lw=1)]
+
+# Iterate through each metric to plot high, low, and average
+for i, metric in enumerate(data):
+    # Calculate high, low, and average values
+    high = np.max(metric)
+    low = np.min(metric)
+    avg = np.mean(metric)
+    
+    # Plot high and low with thin blue lines
+    plt.plot([i+1-0.1, i+1+0.1], [high, high], color='#4286f4', linewidth=1, label='High' if i == 0 else "")  # High line
+    plt.plot([i+1-0.1, i+1+0.1], [low, low], color='#4286f4', linewidth=1, label='Low' if i == 0 else "")  # Low line
+    
+    # Plot average with a thin red line
+    plt.plot([i+1-0.1, i+1+0.1], [avg, avg], color='red', linewidth=1, label='Average' if i == 0 else "")  # Average line
+
+# Customizing the plot
+ax = plt.gca()
+ax.set_facecolor('white')
+ax.spines['top'].set_visible(False)
+ax.spines['right'].set_visible(False)
+
+# Set the y-axis range and ticks
+ax.set_ylim(0.7, 1.0)
+ax.set_yticks(np.arange(0.7, 1.0, 0.05))
+
+# Adding titles, labels, and custom legend
+plt.title('Performance Metrics Across Folds', fontsize=14, fontweight='bold')
+plt.xlabel('Metric', fontsize=12)
+plt.ylabel('Score', fontsize=12)
+plt.xticks(range(1, len(labels) + 1), labels, fontsize=10)
+
+plt.legend(custom_lines, ['High & Low', 'Average'], loc='best')
+
+# Show or save the plot
+# plt.show()
+plt.savefig('Performance Metrics Across Folds - High, Low, and Average Line with Legend.png', dpi=300, bbox_inches='tight')
+
+
 
 accuracy = sum(acc) / len(acc)
 precision = sum(pre) / len(pre)

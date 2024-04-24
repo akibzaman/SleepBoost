@@ -9,7 +9,7 @@
 
 ## Abstract
 
-<br> ![SleepBoost](/figures/GA.jpg)
+<br> ![SleepBoost](/figures/GA.png)
 
 Neurodegenerative diseases often exhibit a strong link with sleep disruption, highlighting the importance of effective sleep stage monitoring. In this light, Automatic Sleep Stage Classification (ASSC) plays a pivotal role, now more streamlined than ever due to the advancements in deep learning (DL). However, the opaque nature of DL models can be a barrier in their clinical adoption, due to trust concerns among medical practitioners. To bridge this gap, we introduce SleepBoost, a transparent Multi-level Tree-based Ensemble Model specifically designed for ASSC. Our approach includes a crafted Feature Engineering Block (FEB) that extracts 42 time and frequency domain features, out of which 17 are selected based on their high mutual information score (>0.23). Uniquely, SleepBoost integrates three fundamental linear models into a cohesive multi-level tree structure, further enhanced by a novel reward-based adaptive weight allocation mechanism. Tested on the Sleep-EDF-20 dataset, SleepBoost demonstrates superior performance with an accuracy of 86.3%, f1-score of 80.9%, and a Cohen kappa score of 0.807, outperforming leading DL models in ASSC. An ablation study underscores the critical role of our selective feature extraction in enhancing model accuracy and interpretability, crucial for clinical settings. This innovative approach not only offers a more transparent alternative to traditional DL models but also extends potential implications for monitoring and understanding sleep patterns in the context of neurodegenerative disorders.
 
@@ -30,7 +30,7 @@ Neurodegenerative diseases often exhibit a strong link with sleep disruption, hi
 | ... | ... | ... |
 
 *Add more tables as needed.*
---->
+<!-- 
 ## Extracted Features
 
 #### Time Domain Features with Computational Equations
@@ -40,7 +40,7 @@ Neurodegenerative diseases often exhibit a strong link with sleep disruption, hi
 <br> ![](/figures/Table-04.png)
 
 #### Derived Frequency Domain Feature Symbols with Computational Method
-<br> ![](/figures/Table-05.png)
+<br> ![](/figures/Table-05.png) 
 
 
 
@@ -59,15 +59,16 @@ Model*
 
 ![ROC](/figures/ROC.jpg)
 <br> *Comparison of Area under the Receiver Operating Curve (AUC-ROC) among the conventional models and SleepBoost. Left: using all extracted features Right: using selected features of FEB*
-<!---
-![Figure 2](/figures/figure2.png)
-*Figure 2: Caption describing this figure.*
 
 ![Figure 2](/figures/figure2.png)
 *Figure 2: Caption describing this figure.*
 
 ![Figure 2](/figures/figure2.png)
 *Figure 2: Caption describing this figure.*
+
+![Figure 2](/figures/figure2.png)
+*Figure 2: Caption describing this figure.*
+
 
 *Add more figures as needed.*
 --->
@@ -77,6 +78,7 @@ This repository contains all the necessary code, data, and instructions to repli
 
 - `src/`: Source code used in the research.
 - `figures/`: Figures and graphs used in the paper.
+- `supplementary/`: Supplemnetary material of this work.
 <!--- - `data/`: Data files and preprocessing scripts. --->
 <!--- - `docs/`: Further documentation on the code and the research. --->
 <!--- - *Include any additional relevant directories and their descriptions.* --->
@@ -98,8 +100,8 @@ Then run the following script to extract specified EEG channels and their corres
 ## Create a virtual environment with venv/conda
 
 ```bash
-python3 -m venv sleepboost
-source .sleepboost/bin/activate
+python3.11 -m venv sleepboost
+source ./sleepboost/bin/activate
 python3 -m pip install -r requirements.txt
 ```
 
