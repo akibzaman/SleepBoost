@@ -13,7 +13,7 @@ matplotlib==3.8.3
 numpy==1.26.2
 packaging==23.2
 pandas==2.1.4
-pillow==10.2.0
+pillow>=10.3.0
 plotly==5.19.0
 progressbar2==4.3.2
 pyEDFlib==0.1.36
