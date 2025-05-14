@@ -41,7 +41,7 @@ from sklearn.preprocessing import MinMaxScaler
 # X, y = data.loc[:,"std":"D18"], data['class']
 
 # ############# 0.1 ################
-data = pd.read_csv("alldatacsv/selected/selected_data_1.csv")
+data = pd.read_csv("alldatacsv/selected/selected_data_1.csv") #Use your own data path
 X, y = data.loc[:, "std":"D19"], data["class"]
 #
 # ############# 0.2 ################

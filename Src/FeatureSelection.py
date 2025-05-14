@@ -42,8 +42,8 @@ test = y
 # SETTING THE THRESHOLD
 # THRESHOLD = 0.1
 # THRESHOLD = 0.2
-THRESHOLD = 0.3
-# THRESHOLD = 0.23
+# THRESHOLD = 0.3
+THRESHOLD = 0.23
 
 
 
@@ -167,8 +167,8 @@ for i, cls in enumerate(class_names):
     
     # Setting titles, labels, and customizing ticks and legend
     axes[i].set_title(f"Class {cls} vs. All Classes (Scaled MI Scores)", fontsize=16)
-    axes[i].set_xlabel("Features", fontsize=16)
-    axes[i].set_ylabel("Scaled MI Score", fontsize=16)
+    axes[i].set_xlabel("Features", fontsize=20)
+    axes[i].set_ylabel("Scaled MI Score", fontsize=20)
     axes[i].tick_params(axis='x', rotation=45)
     axes[i].legend()
 
