@@ -1,23 +1,25 @@
 # SleepBoost: A Multi-level Tree-based Ensemble Model for Automatic Sleep Stage Classification
 
+This is the codebase for the paper [SleepBoost](https://link.springer.com/article/10.1007/s11517-024-03096-x).
+
 <p align="center">
-  <img src="./figures/GA.png" alt="SleepBoost Logo" width="300"/>
+  <img src="./figures/GA.png" alt="SleepBoost Logo"/>
 </p>
 
-Neurodegenerative diseases often exhibit a strong link with sleep disruption, highlighting the importance of effective sleep stage monitoring. In this light, Automatic Sleep Stage Classification (ASSC) plays a pivotal role, now more streamlined than ever due to the advancements in deep learning (DL). However, the opaque nature of DL models can be a barrier in their clinical adoption, due to trust concerns among medical practitioners. To bridge this gap, we introduce **SleepBoost**, a transparent multi-level tree-based ensemble model specifically designed for ASSC. Our approach includes:
+Neurodegenerative diseases often exhibit a strong link with sleep disruption, highlighting the importance of effective sleep stage monitoring. In this light, Automatic Sleep Stage Classification (ASSC) plays a pivotal role, now more streamlined than ever due to advances in deep learning (DL). However, the opaque nature of DL models can be a barrier to clinical adoption, due to trust concerns among medical practitioners. To bridge this gap, we introduce **SleepBoost**, a transparent multi-level tree-based ensemble model specifically designed for ASSC. Our approach includes:
 
-- **Feature Engineering Block (FEB)**  
+* **Feature Engineering Block (FEB)**
   Extracts 42 time- and frequency-domain features; selects 17 with mutual information > 0.23.
-- **Multi-level Ensemble**  
+* **Multi-level Ensemble**
   Trains Random Forest, LightGBM, and CatBoost as base learners in a tree structure.
-- **Adaptive Weight Allocation**  
+* **Adaptive Weight Allocation**
   Novel reward-based mechanism to combine model outputs.
 
 Tested on the Sleep-EDF-20 dataset, SleepBoost achieves:
 
-- **Accuracy:** 86.3%  
-- **F1-score:** 80.9%  
-- **Cohen’s κ:** 0.807  
+* **Accuracy:** 86.3%
+* **F1-score:** 80.9%
+* **Cohen’s κ:** 0.807
 
 These results outperform leading DL models in ASSC. An ablation study underscores the critical role of our selective feature extraction in enhancing both accuracy and interpretability—essential for clinical use.
 
@@ -26,22 +28,15 @@ These results outperform leading DL models in ASSC. An ablation study underscore
 ## 📊 Overview of the Method
 
 <p align="center">
-  <img src="./figures/SleepBoost.jpg" alt="SleepBoost Architecture" width="600"/>
+  <img src="./figures/SleepBoost.jpg" alt="SleepBoost Architecture"/>
 </p>
-
-1. **Feature Extraction**  
-   Run three base learners (Random Forest, LightGBM, CatBoost) on the same feature set.  
-2. **Adaptive Weight Calculation**  
-   Compute reward-based weights from base learner predictions.  
-3. **Final Prediction**  
-   Aggregate weighted scores to assign each 30 s epoch a sleep stage.
 
 ---
 
 ## 📁 Repository Structure
 
-```
-
+```text
+.
 ├── data/
 │   ├── download_physionet.sh    # Script to download Sleep-EDF data
 │   └── prepare_physionet.py     # Extract specific EEG channels & labels
@@ -50,12 +45,12 @@ These results outperform leading DL models in ASSC. An ablation study underscore
 │   ├── FeatureExtraction.py     # Extract time/frequency features
 │   ├── FeatureSelection.py      # Rank & select features via MI
 │   ├── SleepBoost.py            # Standalone model evaluation
-│   └── SleepBoostKFold.py       # 10-fold cross-validation
+│   ├── SleepBoostKFold.py       # 10-fold cross-validation
+│   └── Metric.py                # Generate confusion matrices & ROC curves
 ├── supplementary/               # Supplementary materials
 ├── requirements.txt             # Python dependencies
 └── README.md                    # This file
-
-````
+```
 
 ---
 
@@ -67,7 +62,7 @@ We use the [Sleep-EDF-20 dataset](https://www.physionet.org/content/sleep-edfx/1
 cd data
 chmod +x download_physionet.sh
 ./download_physionet.sh
-````
+```
 
 Extract the EEG channels “EEG Fpz-Cz” and “EEG Pz-Oz”:
 
@@ -93,7 +88,8 @@ python prepare_physionet.py \
 git clone <repo_url>
 cd SleepBoost
 python3.11 -m venv sleepboost
-source ./sleepboost/bin/activate
+source sleepboost/bin/activate
+pip install --upgrade pip
 pip install -r requirements.txt
 ```
 
@@ -114,27 +110,37 @@ pip install -r requirements.txt
 1. **Feature Extraction**
 
    ```bash
-   python src/FeatureExtraction.py --input_dir data/eeg_fpz_cz --output_dir features/
+   python src/FeatureExtraction.py
    ```
 
 2. **Feature Selection**
 
    ```bash
-   python src/FeatureSelection.py --features_dir features/ --output_file selected_features.csv
+   python src/FeatureSelection.py 
    ```
 
-3. **Standalone Test**
+3. **Metrics Generation**
 
    ```bash
-   # Edit the datapath on line 44 of src/SleepBoost.py or pass as argument
-   python src/SleepBoost.py
+  # Generates confusion matrices and ROC curves compared to base models.
+  python src/Metric.py
    ```
 
-4. **10-Fold Cross-Validation**
+
+
+4. **Standalone Test**
 
    ```bash
-   # Edit the datapath on line 46 of src/SleepBoostKFold.py or pass as argument
-   python src/SleepBoostKFold.py
+  # Edit the datapath on line 44 of src/SleepBoost.py or pass as argument
+  python src/SleepBoost.py
+   ```
+
+5. **10-Fold Cross-Validation**
+
+   ```bash
+  # Edit the datapath on line 46 of src/SleepBoostKFold.py or pass as argument
+python src/SleepBoostKFold.py
+
    ```
 
 ---
@@ -144,17 +150,14 @@ pip install -r requirements.txt
 If you use our code or methodology, please cite:
 
 ```bibtex
-@article{sleepboost2023,
-  title        = {SleepBoost: A Multi-level Tree-based Ensemble Model for Automatic Sleep Stage Classification},
-  author       = {Author 1 and Author 2 and Author 3},
-  journal      = {Journal Name},
-  volume       = {xx},
-  number       = {xx},
-  pages        = {xx--xx},
-  year         = {2023},
-  publisher    = {Publisher}
+@article{zaman2024sleepboost,
+  title        = {SleepBoost: a multi-level tree-based ensemble model for automatic sleep stage classification},
+  author       = {Zaman, Akib and Kumar, Shiu and Shatabda, Swakkhar and Dehzangi, Iman and Sharma, Alok},
+  journal      = {Medical \& Biological Engineering \& Computing},
+  volume       = {62},
+  number       = {9},
+  pages        = {2769--2783},
+  year         = {2024},
+  publisher    = {Springer}
 }
-```
-
-```
 ```
