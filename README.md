@@ -119,27 +119,25 @@ pip install -r requirements.txt
    python src/FeatureSelection.py 
    ```
 
-3. **Metrics Generation**
+3. **Metrics Generation (confusion matrices and ROC curves)**
 
    ```bash
-  # Generates confusion matrices and ROC curves compared to base models.
-  python src/Metric.py
+   # Edit the datapath on line 68 of src/Metrics.py 
+   python src/Metrics.py
    ```
-
-
 
 4. **Standalone Test**
 
    ```bash
-  # Edit the datapath on line 44 of src/SleepBoost.py or pass as argument
-  python src/SleepBoost.py
+   # Edit the datapath on line 44 of src/SleepBoost.py
    ```
 
 5. **10-Fold Cross-Validation**
 
    ```bash
-  # Edit the datapath on line 46 of src/SleepBoostKFold.py or pass as argument
-python src/SleepBoostKFold.py
+   # Edit the datapath on line 46 of src/SleepBoostKFold.py
+   python src/SleepBoostKFold.py
+   ```
 
    ```
 
