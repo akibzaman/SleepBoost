@@ -1,4 +1,3 @@
-```markdown
 # SleepBoost: A Multi-level Tree-based Ensemble Model for Automatic Sleep Stage Classification
 
 <p align="center">
@@ -44,17 +43,17 @@ These results outperform leading DL models in ASSC. An ablation study underscore
 ```
 
 ├── data/
-│   ├── download\_physionet.sh      # Script to download Sleep-EDF data
-│   └── prepare\_physionet.py       # Extract specific EEG channels & labels
-├── figures/                       # All paper figures
+│   ├── download_physionet.sh    # Script to download Sleep-EDF data
+│   └── prepare_physionet.py     # Extract specific EEG channels & labels
+├── figures/                     # All paper figures
 ├── src/
-│   ├── FeatureExtraction.py       # Extract time/frequency features
-│   ├── FeatureSelection.py        # Rank & select features via MI
-│   ├── SleepBoost.py              # Standalone model evaluation
-│   └── SleepBoostKFold.py         # 10-fold cross-validation
-├── supplementary/                 # Supplementary materials
-├── requirements.txt               # Python dependencies
-└── README.md                      # This file
+│   ├── FeatureExtraction.py     # Extract time/frequency features
+│   ├── FeatureSelection.py      # Rank & select features via MI
+│   ├── SleepBoost.py            # Standalone model evaluation
+│   └── SleepBoostKFold.py       # 10-fold cross-validation
+├── supplementary/               # Supplementary materials
+├── requirements.txt             # Python dependencies
+└── README.md                    # This file
 
 ````
 
