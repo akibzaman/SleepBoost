@@ -130,6 +130,7 @@ pip install -r requirements.txt
 
    ```bash
    # Edit the datapath on line 44 of src/SleepBoost.py
+   python src/SleepBoost.py
    ```
 
 5. **10-Fold Cross-Validation**
@@ -137,8 +138,6 @@ pip install -r requirements.txt
    ```bash
    # Edit the datapath on line 46 of src/SleepBoostKFold.py
    python src/SleepBoostKFold.py
-   ```
-
    ```
 
 ---
